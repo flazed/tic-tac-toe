@@ -1,7 +1,10 @@
-function App() {
+import { TicTacContainer } from '@components/tic-tac-container/tic-tac-container';
+import { TicTacContext } from '@store/tic-tac.context';
+
+export default function App() {
   return (
-    <div />
+    <TicTacContext>
+      <TicTacContainer />
+    </TicTacContext>
   );
 }
-
-export default App;

@@ -34,6 +34,7 @@ module.exports = {
       }
     ],
     "no-param-reassign": 0,
-    "no-console": ["error", { allow: ["warn", "error"] }]
+    "no-console": ["error", { allow: ["warn", "error"] }],
+    "no-restricted-syntax": 0
   },
 }
