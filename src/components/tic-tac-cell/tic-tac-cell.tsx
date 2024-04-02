@@ -39,9 +39,7 @@ export function TicTacCell({ index }: TicTacCellTypes) {
     return '';
   };
 
-  const {
-    container, icon, error,
-  } = TicTacCellStyles({
+  const { container, icon, error } = TicTacCellStyles({
     user: markedFields[index] && markedFields[index].isFirstUser ? 'firstPlayer' : 'secondPlayer',
   });
 
