@@ -35,6 +35,12 @@ module.exports = {
     ],
     "no-param-reassign": 0,
     "no-console": ["error", { allow: ["warn", "error"] }],
-    "no-restricted-syntax": 0
+    "no-restricted-syntax": 0,
+    "object-curly-newline": ["error", {
+      "ObjectExpression": "always",
+      "ObjectPattern": { "multiline": true },
+      "ImportDeclaration": "never",
+      "ExportDeclaration": { "multiline": true, "minProperties": 3 }
+    }]
   },
 }
