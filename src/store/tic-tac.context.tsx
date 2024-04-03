@@ -1,6 +1,12 @@
 import { useMemo, useState } from 'react';
 import { TicTac } from '@store/tic-tac';
-import { GameMods, MarkedFieldType, TicTacContextTypes, TicTacType, WinnerType } from '@store/tic-tac.types';
+import { GameMods,
+  MarkedFieldType,
+  Players,
+  Score,
+  TicTacContextTypes,
+  TicTacType,
+  WinnerType } from '@store/tic-tac.types';
 import { range } from '@services/range';
 import { getWinStrategy } from '@services/winStrategy';
 
@@ -16,7 +22,7 @@ const winStrategy = {
 
 export function TicTacContext({ children }: TicTacContextTypes) {
   const [gameMode, setGameMode] = useState<GameMods>(GameMods.THREE);
-  const [isFirstUser, setIsFirstUser] = useState<boolean>(true);
+  const [currentPlayer, setCurrentPlayer] = useState<Players>(Players.FIRST);
   const [markedFields, setMarkedFields] = useState<MarkedFieldType>({
   });
   const [winner, setWinner] = useState<WinnerType>({
@@ -24,8 +30,21 @@ export function TicTacContext({ children }: TicTacContextTypes) {
     winStrategy: {
     },
   });
+  const [score, setScore] = useState<Score>({
+    [Players.FIRST]: 0,
+    [Players.SECONDS]: 0,
+  });
 
-  const handleSetWinner = (currentUser: boolean, winStrategyProps: WinnerType['winStrategy']) => {
+  const initState = () => {
+    setCurrentPlayer(Players.FIRST);
+    setMarkedFields([]);
+    setWinner({
+      isWin: false,
+      winStrategy: {
+      },
+    });
+  };
+  const handleSetWinner = (currentUser: Players, winStrategyProps: WinnerType['winStrategy']) => {
     const winSettings = {
       isCol: winStrategyProps?.isCol ?? false,
       isRow: winStrategyProps?.isRow ?? false,
@@ -36,14 +55,18 @@ export function TicTacContext({ children }: TicTacContextTypes) {
 
     setWinner({
       isWin: true,
-      isFirstUser: currentUser,
+      player: currentUser,
       winStrategy: winSettings,
+    });
+    setScore({
+      ...score,
+      [currentUser]: score[currentUser] + 1,
     });
   };
 
-  const calculateWinner = (currentUser: boolean, markedFieldsState: MarkedFieldType) => {
+  const calculateWinner = (currentUser: Players, markedFieldsState: MarkedFieldType) => {
     const currentUserStepsIndex: string[] = Object.entries(markedFieldsState)
-      .filter((mf) => mf[1].isFirstUser === currentUser)
+      .filter((mf) => mf[1].player === currentUser)
       .map((mf) => mf[0]);
 
     for (const index of range(gameMode)) {
@@ -81,27 +104,29 @@ export function TicTacContext({ children }: TicTacContextTypes) {
     const newMarkedFieldsState = {
       ...markedFields,
       [index]: {
-        isFirstUser,
+        player: currentPlayer,
       },
     };
-    calculateWinner(isFirstUser, newMarkedFieldsState);
+    calculateWinner(currentPlayer, newMarkedFieldsState);
     setMarkedFields(newMarkedFieldsState);
-    setIsFirstUser(!isFirstUser);
-  };
-
-  const handleResetGame = () => {
-    setIsFirstUser(true);
-    setMarkedFields([]);
-    setWinner({
-      isWin: false,
-      winStrategy: {
-      },
-    });
+    setCurrentPlayer(currentPlayer === Players.FIRST ? Players.SECONDS : Players.FIRST);
   };
 
   const handleChangeGameMode = (mode: GameMods) => {
     setGameMode(mode);
-    handleResetGame();
+    initState();
+  };
+
+  const handleContinueGame = () => {
+    initState();
+  };
+
+  const handleResetGame = () => {
+    initState();
+    setScore({
+      [Players.FIRST]: 0,
+      [Players.SECONDS]: 0,
+    });
   };
 
   const ticTacValue = useMemo<TicTacType>(() => ({
@@ -109,9 +134,11 @@ export function TicTacContext({ children }: TicTacContextTypes) {
     gameFields: gameFields[gameMode],
     markedFields,
     winner,
+    score,
     handleFieldClick,
-    handleResetGame,
     handleChangeGameMode,
+    handleContinueGame,
+    handleResetGame,
   }), [gameMode, markedFields, winner]);
 
   return (

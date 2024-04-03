@@ -4,6 +4,7 @@ import { TicTac } from '@store/tic-tac';
 import { Cross } from '@icons/Cross';
 import { Circle } from '@icons/Circle';
 import classNames from 'classnames';
+import { Players } from '@store/tic-tac.types';
 
 type TicTacCellTypes = {
   index: number
@@ -31,7 +32,7 @@ export function TicTacCell({ index }: TicTacCellTypes) {
     const currentField = markedFields[index];
 
     if (currentField) {
-      if (currentField.isFirstUser) {
+      if (currentField.player === Players.FIRST) {
         return <Cross />;
       }
       return <Circle />;
@@ -40,7 +41,7 @@ export function TicTacCell({ index }: TicTacCellTypes) {
   };
 
   const { container, icon, error } = TicTacCellStyles({
-    user: markedFields[index] && markedFields[index].isFirstUser ? 'firstPlayer' : 'secondPlayer',
+    user: markedFields[index] && markedFields[index].player === Players.FIRST ? 'firstPlayer' : 'secondPlayer',
   });
 
   return (

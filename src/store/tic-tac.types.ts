@@ -7,12 +7,19 @@ export type TicTacType = {
   gameFields: number[],
   markedFields: MarkedFieldType,
   winner: WinnerType,
+  score: Score,
   handleFieldClick: (index: number) => void
-  handleResetGame: () => void
   handleChangeGameMode: (mode: GameMods) => void
+  handleContinueGame: () => void
+  handleResetGame: () => void
 };
 
-export type MarkedFieldType = Record<number, { isFirstUser: boolean }>;
+export enum Players {
+  'FIRST' = 'X',
+  'SECONDS' = 'O',
+}
+
+export type MarkedFieldType = Record<number, { player: Players }>;
 
 export enum GameMods {
   'THREE' = 3,
@@ -21,7 +28,7 @@ export enum GameMods {
 
 export type WinnerType = {
   isWin: boolean,
-  isFirstUser?: boolean,
+  player?: Players,
   winStrategy: Partial<{
     isCol: boolean,
     isRow: boolean,
@@ -30,3 +37,5 @@ export type WinnerType = {
     index: number
   }>,
 };
+
+export type Score = Record<Players, number>;
