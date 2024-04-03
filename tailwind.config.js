@@ -40,11 +40,17 @@ export default {
           '100%': {
             transform: 'translateX(0)'
           },
+        },
+        appear: {
+          '0%': {
+            width: 0
+          }
         }
       },
       animation: {
         'scaling' : 'scaling .5s linear',
-        'shaking' : 'shaking .3s linear'
+        'shaking' : 'shaking .3s linear',
+        'appear' : 'appear .5s linear'
       },
     },
   },

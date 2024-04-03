@@ -9,7 +9,7 @@ import { Circle } from '@icons/Circle';
 export function Score() {
   const { winner, score, handleContinueGame, handleResetGame } = useContext(TicTac);
 
-  const { container, smallContainer, cross, circle } = ScoreStyle();
+  const { container, smallContainer, cross, circle, playerScore } = ScoreStyle();
 
   return (
     <div>
@@ -18,13 +18,17 @@ export function Score() {
           <span className={cross()}>
             <Cross />
           </span>
-          {score[Players.FIRST]}
+          <span className={playerScore()}>
+            {score[Players.FIRST]}
+          </span>
         </div>
         <div className={smallContainer()}>
+          <span className={playerScore()}>
+            {score[Players.SECONDS]}
+          </span>
           <span className={circle()}>
             <Circle />
           </span>
-          {score[Players.SECONDS]}
         </div>
       </div>
       <div className={smallContainer()}>

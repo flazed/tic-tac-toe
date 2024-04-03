@@ -11,7 +11,7 @@ type TicTacCellTypes = {
 };
 
 export function TicTacCell({ index }: TicTacCellTypes) {
-  const { markedFields, handleFieldClick } = useContext(TicTac);
+  const { gameMode, markedFields, handleFieldClick } = useContext(TicTac);
 
   const [isAlreadyUsed, setAlreadyUsed] = useState(false);
 
@@ -42,6 +42,7 @@ export function TicTacCell({ index }: TicTacCellTypes) {
 
   const { container, icon, error } = TicTacCellStyles({
     user: markedFields[index] && markedFields[index].player === Players.FIRST ? 'firstPlayer' : 'secondPlayer',
+    mode: gameMode,
   });
 
   return (
