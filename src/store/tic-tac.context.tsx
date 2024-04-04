@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { TicTac } from '@store/tic-tac';
 import { GameMods,
   MarkedFieldType,
@@ -23,6 +23,7 @@ const winStrategy = {
 export function TicTacContext({ children }: TicTacContextTypes) {
   const [gameMode, setGameMode] = useState<GameMods>(GameMods.THREE);
   const [currentPlayer, setCurrentPlayer] = useState<Players>(Players.FIRST);
+  const [whoseFirstStep, setFirstStep] = useState<Players>(Players.FIRST);
   const [markedFields, setMarkedFields] = useState<MarkedFieldType>({
   });
   const [winner, setWinner] = useState<WinnerType>({
@@ -36,7 +37,6 @@ export function TicTacContext({ children }: TicTacContextTypes) {
   });
 
   const initState = () => {
-    setCurrentPlayer(Players.FIRST);
     setMarkedFields([]);
     setWinner({
       isWin: false,
@@ -44,6 +44,7 @@ export function TicTacContext({ children }: TicTacContextTypes) {
       },
     });
   };
+
   const handleSetWinner = (currentUser: Players, winStrategyProps: WinnerType['winStrategy']) => {
     const winSettings = {
       isCol: winStrategyProps?.isCol ?? false,
@@ -113,21 +114,40 @@ export function TicTacContext({ children }: TicTacContextTypes) {
   };
 
   const handleChangeGameMode = (mode: GameMods) => {
-    setGameMode(mode);
     initState();
+    setCurrentPlayer(Players.FIRST);
+    setFirstStep(Players.FIRST);
+    setGameMode(mode);
   };
 
   const handleContinueGame = () => {
     initState();
+    setCurrentPlayer(whoseFirstStep === Players.FIRST ? Players.SECONDS : Players.FIRST);
+    setFirstStep(whoseFirstStep === Players.FIRST ? Players.SECONDS : Players.FIRST);
   };
 
   const handleResetGame = () => {
     initState();
+    setCurrentPlayer(Players.FIRST);
+    setFirstStep(Players.FIRST);
     setScore({
       [Players.FIRST]: 0,
       [Players.SECONDS]: 0,
     });
   };
+
+  useEffect(() => {
+    if (Object.keys(markedFields).length === gameMode * gameMode && !winner.isWin) {
+      setWinner({
+        ...winner,
+        isWin: true,
+      });
+      setScore({
+        [Players.FIRST]: score[Players.FIRST] + 1,
+        [Players.SECONDS]: score[Players.SECONDS] + 1,
+      });
+    }
+  }, [markedFields, winner.isWin]);
 
   const ticTacValue = useMemo<TicTacType>(() => ({
     gameMode,

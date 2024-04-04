@@ -1,5 +1,5 @@
-import { useContext } from 'react';
 import { TicTac } from '@store/tic-tac';
+import { useContext } from 'react';
 import { StrikeStyles } from '@components/strike/strike.styles';
 import classNames from 'classnames';
 
