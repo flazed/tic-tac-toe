@@ -3,15 +3,15 @@ import { PropsWithChildren } from 'react';
 export type TicTacContextTypes = PropsWithChildren<NonNullable<unknown>>;
 
 export type TicTacType = {
-  gameMode: GameMods,
   gameFields: number[],
-  markedFields: MarkedFieldType,
-  winner: WinnerType,
-  score: Score,
-  handleFieldClick: (index: number) => void
+  gameMode: GameMods,
   handleChangeGameMode: (mode: GameMods) => void
   handleContinueGame: () => void
+  handleFieldClick: (index: number) => void
   handleResetGame: () => void
+  markedFields: MarkedFieldType,
+  score: Score,
+  winner: WinnerType,
 };
 
 export enum Players {
@@ -22,19 +22,19 @@ export enum Players {
 export type MarkedFieldType = Record<number, { player: Players }>;
 
 export enum GameMods {
-  'THREE' = 3,
   'FIVE' = 5,
+  'THREE' = 3,
 }
 
 export type WinnerType = {
   isWin: boolean,
   player?: Players,
   winStrategy: Partial<{
+    index: number
     isCol: boolean,
-    isRow: boolean,
     isLDiagonal: boolean,
     isRDiagonal: boolean,
-    index: number
+    isRow: boolean,
   }>,
 };
 

@@ -1,15 +1,20 @@
-import { Button } from '@components/button/button';
 import { useContext } from 'react';
+
+import { Button } from '@components/button/button';
+
 import { TicTac } from '@store/tic-tac';
-import { ScoreStyle } from '@components/score/score.style';
-import { Cross } from '@icons/Cross';
-import { Players } from '@store/tic-tac.types';
+
 import { Circle } from '@icons/Circle';
+import { Cross } from '@icons/Cross';
+
+import { Players } from '@store/tic-tac.types';
+
+import { ScoreStyles } from '@components/score/score.styles';
 
 export function Score() {
-  const { winner, score, handleContinueGame, handleResetGame } = useContext(TicTac);
+  const { handleContinueGame, handleResetGame, score, winner } = useContext(TicTac);
 
-  const { container, smallContainer, cross, circle, playerScore } = ScoreStyle();
+  const { circle, container, cross, playerScore, smallContainer } = ScoreStyles();
 
   return (
     <div>
@@ -32,8 +37,8 @@ export function Score() {
         </div>
       </div>
       <div className={smallContainer()}>
-        <Button onClick={handleContinueGame} disabled={!winner.isWin}>Продолжить</Button>
-        <Button type="secondary" onClick={handleResetGame}>Сбросить</Button>
+        <Button disabled={!winner.isWin} onClick={handleContinueGame}>Продолжить</Button>
+        <Button onClick={handleResetGame} type="secondary">Сбросить</Button>
       </div>
     </div>
   );

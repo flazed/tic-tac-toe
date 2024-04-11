@@ -1,23 +1,24 @@
 import { PropsWithChildren } from 'react';
-import { ButtonStyle } from '@components/button/button.style';
+
+import { ButtonStyles } from '@components/button/button.styles';
 
 type ButtonProps = PropsWithChildren<{
+  disabled?: boolean
   onClick: () => void
   type?: 'primary' | 'secondary'
-  disabled?: boolean
 }>;
 
 export function Button(props: ButtonProps) {
-  const { onClick, type, disabled, children } = props;
+  const { children, disabled, onClick, type } = props;
 
   return (
     <button
-      type="button"
-      onClick={onClick}
-      disabled={disabled}
-      className={ButtonStyle({
+      className={ButtonStyles({
         type,
       })}
+      disabled={disabled}
+      onClick={onClick}
+      type="button"
     >
       {children}
     </button>
@@ -25,6 +26,6 @@ export function Button(props: ButtonProps) {
 }
 
 Button.defaultProps = {
-  type: 'primary',
   disabled: false,
+  type: 'primary',
 };

@@ -6,14 +6,15 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
     "airbnb",
-    "airbnb-typescript/base"
+    "airbnb-typescript/base",
+    "plugin:perfectionist/recommended-natural"
   ],
   "parserOptions": {
     "project": ["./tsconfig.json"]
   },
   ignorePatterns: ['dist', '.eslintrc.cjs', 'vite.config.ts', 'tailwind.config.js', 'postcss.config.js'],
   parser: '@typescript-eslint/parser',
-  plugins: ['react-refresh'],
+  plugins: ['react-refresh', 'perfectionist'],
   rules: {
     "react/react-in-jsx-scope": "off",
     'react-refresh/only-export-components': [
@@ -41,6 +42,50 @@ module.exports = {
       "ObjectPattern": { "multiline": true },
       "ImportDeclaration": "never",
       "ExportDeclaration": { "multiline": true, "minProperties": 3 }
-    }]
+    }],
+    "perfectionist/sort-imports": [
+      "error",
+      {
+        "type": "natural",
+        "order": "asc",
+        "groups": [
+          "react",
+          ["builtin", "external"],
+          "type",
+          "internal-type",
+          "components",
+          "store",
+          "internal",
+          "icons",
+          "types",
+          "styles",
+          ["parent-type", "sibling-type", "index-type"],
+          ["parent", "sibling", "index"],
+          "side-effect",
+          "style",
+          "object",
+          "unknown"
+        ],
+        "custom-groups": {
+          "value": {
+            "react": ["react", "react-*"],
+            "styles": "**/*styles*",
+            "types": "**/*types*",
+            "components": "@components/**",
+            "store": "@store/**",
+            "icons": "@icons/**",
+          },
+          "type": {
+            "react": "react",
+            "styles": "**/*styles*",
+            "types": "**/*types*",
+            "components": "@components/**",
+            "store": "@store/**",
+            "icons": "@icons/**",
+          }
+        },
+        "newlines-between": "always",
+      }
+    ]
   },
 }

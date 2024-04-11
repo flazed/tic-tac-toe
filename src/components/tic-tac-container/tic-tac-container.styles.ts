@@ -1,4 +1,5 @@
 import { tv } from 'tailwind-variants';
+
 import { GameMods } from '@store/tic-tac.types';
 
 export const TicTacContainerStyles = tv({
@@ -8,11 +9,11 @@ export const TicTacContainerStyles = tv({
   },
   variants: {
     mode: {
-      [GameMods.THREE]: {
-        fieldsContainer: 'grid-cols-3',
-      },
       [GameMods.FIVE]: {
         fieldsContainer: 'grid-cols-5',
+      },
+      [GameMods.THREE]: {
+        fieldsContainer: 'grid-cols-3',
       },
     },
   },

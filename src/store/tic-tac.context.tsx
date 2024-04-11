@@ -1,5 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
+
+import { range } from '@services/range';
+import { getWinStrategy } from '@services/winStrategy';
+
 import { TicTac } from '@store/tic-tac';
+
 import { GameMods,
   MarkedFieldType,
   Players,
@@ -7,17 +12,15 @@ import { GameMods,
   TicTacContextTypes,
   TicTacType,
   WinnerType } from '@store/tic-tac.types';
-import { range } from '@services/range';
-import { getWinStrategy } from '@services/winStrategy';
 
 const gameFields = {
-  [GameMods.THREE]: range(3 * 3),
   [GameMods.FIVE]: range(5 * 5),
+  [GameMods.THREE]: range(3 * 3),
 };
 
 const winStrategy = {
-  [GameMods.THREE]: getWinStrategy(GameMods.THREE),
   [GameMods.FIVE]: getWinStrategy(GameMods.FIVE),
+  [GameMods.THREE]: getWinStrategy(GameMods.THREE),
 };
 
 export function TicTacContext({ children }: TicTacContextTypes) {
@@ -47,11 +50,11 @@ export function TicTacContext({ children }: TicTacContextTypes) {
 
   const handleSetWinner = (currentUser: Players, winStrategyProps: WinnerType['winStrategy']) => {
     const winSettings = {
+      index: winStrategyProps?.index ?? 0,
       isCol: winStrategyProps?.isCol ?? false,
-      isRow: winStrategyProps?.isRow ?? false,
       isLDiagonal: winStrategyProps?.isLDiagonal ?? false,
       isRDiagonal: winStrategyProps?.isRDiagonal ?? false,
-      index: winStrategyProps?.index ?? 0,
+      isRow: winStrategyProps?.isRow ?? false,
     };
 
     setWinner({
@@ -80,9 +83,9 @@ export function TicTacContext({ children }: TicTacContextTypes) {
 
       if (thisRowSteps.length === gameMode || thisColSteps.length === gameMode) {
         handleSetWinner(currentUser, {
-          isRow: thisRowSteps.length === gameMode,
-          isCol: thisColSteps.length === gameMode,
           index,
+          isCol: thisColSteps.length === gameMode,
+          isRow: thisRowSteps.length === gameMode,
         });
       }
     }
@@ -150,15 +153,15 @@ export function TicTacContext({ children }: TicTacContextTypes) {
   }, [markedFields, winner.isWin]);
 
   const ticTacValue = useMemo<TicTacType>(() => ({
-    gameMode,
     gameFields: gameFields[gameMode],
-    markedFields,
-    winner,
-    score,
-    handleFieldClick,
+    gameMode,
     handleChangeGameMode,
     handleContinueGame,
+    handleFieldClick,
     handleResetGame,
+    markedFields,
+    score,
+    winner,
   }), [gameMode, markedFields, winner]);
 
   return (

@@ -1,14 +1,19 @@
-import { Button } from '@components/button/button';
 import { useContext } from 'react';
-import { TicTac } from '@store/tic-tac';
-import { GameMods } from '@store/tic-tac.types';
-import { ChangeModeStyle } from '@components/change-mode/change-mode.style';
+
 import classNames from 'classnames';
+
+import { Button } from '@components/button/button';
+
+import { TicTac } from '@store/tic-tac';
+
+import { GameMods } from '@store/tic-tac.types';
+
+import { ChangeModeStyles } from '@components/change-mode/change-mode.styles';
 
 export function ChangeMode() {
   const { gameMode, handleChangeGameMode } = useContext(TicTac);
 
-  const { container, button, active } = ChangeModeStyle();
+  const { active, button, container } = ChangeModeStyles();
 
   return (
     <div className={container()}>
@@ -17,8 +22,8 @@ export function ChangeMode() {
       })}
       >
         <Button
-          onClick={() => handleChangeGameMode(GameMods.THREE)}
           disabled={gameMode === GameMods.THREE}
+          onClick={() => handleChangeGameMode(GameMods.THREE)}
         >
           3x3
         </Button>
@@ -29,8 +34,8 @@ export function ChangeMode() {
       })}
       >
         <Button
-          onClick={() => handleChangeGameMode(GameMods.FIVE)}
           disabled={gameMode === GameMods.FIVE}
+          onClick={() => handleChangeGameMode(GameMods.FIVE)}
         >
           5x5
         </Button>

@@ -1,17 +1,22 @@
 import { useContext, useState } from 'react';
-import { TicTacCellStyles } from '@components/tic-tac-cell/tic-tac-cell.styles';
-import { TicTac } from '@store/tic-tac';
-import { Cross } from '@icons/Cross';
-import { Circle } from '@icons/Circle';
+
 import classNames from 'classnames';
+
+import { TicTac } from '@store/tic-tac';
+
+import { Circle } from '@icons/Circle';
+import { Cross } from '@icons/Cross';
+
 import { Players } from '@store/tic-tac.types';
+
+import { TicTacCellStyles } from '@components/tic-tac-cell/tic-tac-cell.styles';
 
 type TicTacCellTypes = {
   index: number
 };
 
 export function TicTacCell({ index }: TicTacCellTypes) {
-  const { gameMode, markedFields, handleFieldClick } = useContext(TicTac);
+  const { gameMode, handleFieldClick, markedFields } = useContext(TicTac);
 
   const [isAlreadyUsed, setAlreadyUsed] = useState(false);
 
@@ -40,16 +45,16 @@ export function TicTacCell({ index }: TicTacCellTypes) {
     return '';
   };
 
-  const { container, icon, error } = TicTacCellStyles({
-    user: markedFields[index] && markedFields[index].player === Players.FIRST ? 'firstPlayer' : 'secondPlayer',
+  const { container, error, icon } = TicTacCellStyles({
     mode: gameMode,
+    user: markedFields[index] && markedFields[index].player === Players.FIRST ? 'firstPlayer' : 'secondPlayer',
   });
 
   return (
     <button
-      type="button"
       className={container()}
       onClick={handleFieldOnClick}
+      type="button"
     >
       {markedFields[index] && (
         <span className={icon()}>

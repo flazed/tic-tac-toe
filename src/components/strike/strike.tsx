@@ -1,18 +1,21 @@
-import { TicTac } from '@store/tic-tac';
 import { useContext } from 'react';
-import { StrikeStyles } from '@components/strike/strike.styles';
+
 import classNames from 'classnames';
+
+import { TicTac } from '@store/tic-tac';
+
+import { StrikeStyles } from '@components/strike/strike.styles';
 
 export function Strike() {
   const {
     gameMode,
     winner: {
       winStrategy: {
+        index,
         isCol,
-        isRow,
         isLDiagonal,
         isRDiagonal,
-        index,
+        isRow,
       },
     },
   } = useContext(TicTac);
@@ -36,7 +39,7 @@ export function Strike() {
     };
   };
 
-  const { base, col, row, lDiag, rDiag } = StrikeStyles();
+  const { base, col, lDiag, rDiag, row } = StrikeStyles();
 
   return (
     <div
@@ -44,9 +47,9 @@ export function Strike() {
         base(),
         {
           [String(col())]: isCol,
-          [String(row())]: isRow,
           [String(lDiag())]: isLDiagonal,
           [String(rDiag())]: isRDiagonal,
+          [String(row())]: isRow,
         },
       )}
       style={strikePosition()}

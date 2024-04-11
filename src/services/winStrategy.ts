@@ -1,18 +1,18 @@
 import { range } from '@services/range';
 
 type WinStrategy = {
-  rows: number[][],
   cols: number[][],
   leftDiagonal: number[],
   rightDiagonal: number[],
+  rows: number[][],
 };
 
 export const getWinStrategy = (side: number): WinStrategy => {
   const winFields: WinStrategy = {
-    rows: [],
     cols: [],
     leftDiagonal: [],
     rightDiagonal: [],
+    rows: [],
   };
 
   for (const i of range(side)) {

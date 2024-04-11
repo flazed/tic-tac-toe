@@ -1,13 +1,14 @@
 import { useContext } from 'react';
 
-import { TicTacContainerStyles } from '@components/tic-tac-container/tic-tac-container.styles';
+import { Strike } from '@components/strike/strike';
 import { TicTacCell } from '@components/tic-tac-cell/tic-tac-cell';
 
 import { TicTac } from '@store/tic-tac';
-import { Strike } from '@components/strike/strike';
+
+import { TicTacContainerStyles } from '@components/tic-tac-container/tic-tac-container.styles';
 
 export function TicTacContainer() {
-  const { gameMode, gameFields, winner } = useContext(TicTac);
+  const { gameFields, gameMode, winner } = useContext(TicTac);
   const { fieldsContainer, strikeContainer } = TicTacContainerStyles({
     mode: gameMode,
   });
@@ -21,7 +22,7 @@ export function TicTacContainer() {
         </div>
         )
       }
-      {gameFields.map((field) => <TicTacCell key={field} index={field} />)}
+      {gameFields.map((field) => <TicTacCell index={field} key={field} />)}
     </div>
   );
 }
