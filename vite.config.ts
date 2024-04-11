@@ -4,7 +4,7 @@ import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/tic-ta-toe/',
+  base: '/tic-tac-toe/',
   resolve: {
     alias: {
       '@components': path.resolve(__dirname, './src/components'),
