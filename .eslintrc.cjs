@@ -86,6 +86,15 @@ module.exports = {
         },
         "newlines-between": "always",
       }
+    ],
+    "perfectionist/sort-jsx-props": [
+      "error",
+      {
+        "groups": ["multiline", "unknown", "shorthand"],
+        "custom-groups" : {
+
+        }
+      }
     ]
   },
 }
